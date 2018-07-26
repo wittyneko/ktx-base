@@ -35,6 +35,6 @@ dependencies {
 
 apply from: "$configPath/upload.gradle"
 
-group = "cn.wittyneko"
+group = "com.wittyneko"
 archivesBaseName = "ktx-base"
 version = "1.0.0-SNAPSHOT"
