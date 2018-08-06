@@ -1,7 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    def remoteRepository = 'gitee'
-    apply from: "https://${remoteRepository}.com/wittyneko/gradle-tools/raw/${remoteRepository}/properties.groovy"
+    def remoteRepository = 'github'
+    def propertiesUrl = "https://${remoteRepository}.com/wittyneko/gradle-tools/raw/${remoteRepository}/properties.groovy"
+    def fileName = propertiesUrl.substring(propertiesUrl.lastIndexOf('/') + 1)
+    def file = file(fileName)
+    if (!file.exists()) file.withOutputStream { it << new URL(propertiesUrl).content }
+    apply from: fileName
+
     apply from: "$configPath/config.groovy"
     apply from: "$configPath/dependencies.groovy"
     ext.kotlin_version = androidcfg.kotlin_version
@@ -12,6 +17,7 @@ buildscript {
         maven { url rootProject.maven.aliyunMaven }
         google()
         jcenter()
+        maven { url rootProject.maven.jitpack }
     }
 
     dependencies {
@@ -30,6 +36,7 @@ allprojects {
         maven { url rootProject.maven.aliyunMaven }
         google()
         jcenter()
+        maven { url rootProject.maven.jitpack }
     }
 }
 
