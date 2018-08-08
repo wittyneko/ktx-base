@@ -1,3 +1,3 @@
 include ':base'
 include ':gradle-tools'
-project(':gradle-tools').projectDir = file("${System.properties['user.home']}/gradle-tools")
+project(':gradle-tools').projectDir = file("${System.properties['user.home']}/code/neko/gradle-tools")
