@@ -5,6 +5,8 @@ import android.text.*
 import android.text.style.ClickableSpan
 import android.view.View
 import java.nio.charset.Charset
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 /**
  * 文字处理工具类
@@ -135,7 +137,32 @@ fun CharSequence.toSpannable(
     }, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 }
 
+fun String.md5() = let {
+    var result = ""
+    try {
+        //获取md5加密对象
+        val instance: MessageDigest = MessageDigest.getInstance("MD5")
+        //对字符串加密，返回字节数组
+        val digest: ByteArray = instance.digest(it.toByteArray())
+        val sb = StringBuffer()
+        for (b in digest) {
+            //获取低八位有效值
+            val i: Int = b.toInt() and 0xff
+            //将整数转化为16进制
+            var hexString = Integer.toHexString(i)
+            if (hexString.length < 2) {
+                //如果是一位的话，补0
+                hexString = "0" + hexString
+            }
+            sb.append(hexString)
+        }
+        result = sb.toString()
 
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+    }
+    result
+}
 
 fun formatJson(jsonStr: String?): String {
     if (null == jsonStr || "" == jsonStr) return ""
