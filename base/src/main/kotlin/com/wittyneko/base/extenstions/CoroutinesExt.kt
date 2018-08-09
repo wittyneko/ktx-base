@@ -5,6 +5,13 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlin.coroutines.experimental.CoroutineContext
 import kotlin.coroutines.experimental.EmptyCoroutineContext
 
+
+/**
+ * 协程
+ * @author wittyneko
+ * @since 2018/8/8
+ */
+
 @PublishedApi
 internal val POOL = newFixedThreadPoolContext(2 * Runtime.getRuntime().availableProcessors(), "bg")
 
