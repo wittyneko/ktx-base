@@ -12,12 +12,17 @@ import java.lang.ref.WeakReference
  * BasePresenter
  * Created by wittyneko on 2018/5/12.
  */
-interface BasePresenter<T : BaseView>: DefaultLifecycleObserver {
+interface BasePresenter<T : BaseView> : DefaultLifecycleObserver {
     var refViews: Reference<T>
+
     val views: T?
         get() = refViews.get()
+
+    val safeView: T get() = views!!
+
     val isViewAttached: Boolean
         get() = views != null
+
     val context: Context get() = views?.context ?: baseApp
 
     override fun onCreate(owner: LifecycleOwner)
@@ -40,7 +45,7 @@ interface BasePresenter<T : BaseView>: DefaultLifecycleObserver {
 
 }
 
-inline fun <reified V> attachView(owner: LifecycleOwner?): Reference<V> = run{
+inline fun <reified V> attachView(owner: LifecycleOwner?): Reference<V> = run {
     val view = owner as? V
     WeakReference<V>(view)
 }
