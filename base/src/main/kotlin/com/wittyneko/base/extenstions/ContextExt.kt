@@ -5,7 +5,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.support.annotation.ColorRes
-import android.support.annotation.Nullable
+
+/**
+ * Context Extenstions
+ * @author wittyneko
+ * @since 2018/8/8
+ */
 
 val Context.isAppForeground: Boolean
     get() {

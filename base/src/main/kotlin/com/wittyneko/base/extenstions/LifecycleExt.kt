@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference
 
 /**
  * LifecycleExt
- * Created by Administrator on 2018/5/14.
+ * Created by wittyneko on 2018/5/14.
  */
 
 inline fun <T> LiveData<T>.observe(owner: LifecycleOwner, crossinline observer: (T?) -> Unit) {

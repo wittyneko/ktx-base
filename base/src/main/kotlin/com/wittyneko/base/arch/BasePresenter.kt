@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 
 /**
  * BasePresenter
- * Created by Administrator on 2018/5/12.
+ * Created by wittyneko on 2018/5/12.
  */
 interface BasePresenter<T : BaseView>: DefaultLifecycleObserver {
     var refViews: Reference<T>

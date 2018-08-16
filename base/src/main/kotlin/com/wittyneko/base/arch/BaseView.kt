@@ -4,7 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 
 /**
  * BaseView
- * Created by Administrator on 2018/5/12.
+ * Created by wittyneko on 2018/5/12.
  */
 interface BaseView : LifecycleOwner {
 

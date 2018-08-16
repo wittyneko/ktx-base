@@ -11,11 +11,13 @@ ext {
             dependencies_map['kotlin-stdlib-jdk7'],
             dependencies_map['anko'],
 
-            dependencies_map['retrofit'],
-            dependencies_map['glide'],
             dependencies_map['lifecycle-extensions'],
             dependencies_map['lifecycle-runtime'],
             dependencies_map['lifecycle-common-java8'],
+
+            dependencies_map['retrofit'],
+            dependencies_map['glide'],
+            dependencies_map['gson'],
     ]
 
     // 个人库
