@@ -3,3 +3,9 @@ def userHome = System.properties['user.home']
 include ':base'
 include ':gradle-tools'
 project(':gradle-tools').projectDir = file("$userHome/code/neko/gradle-tools")
+
+rootProject.children.each { p ->
+
+    println "project: $rootProject.name$p.path"
+    p.name = "$rootProject.name$p.path".replace(':', '-')
+}
