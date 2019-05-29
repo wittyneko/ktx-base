@@ -102,7 +102,7 @@ open class CrashHandler<T>(private val context: Context, private val clazz: Clas
     }
 }
 
-open class CarshLogHandler: Thread.UncaughtExceptionHandler {
+open class CrashLogHandler: Thread.UncaughtExceptionHandler {
     val defHandler = Thread.getDefaultUncaughtExceptionHandler()
     override fun uncaughtException(t: Thread, e: Throwable?) {
         Log.e(TAG, "thread: ${t.name}", e)

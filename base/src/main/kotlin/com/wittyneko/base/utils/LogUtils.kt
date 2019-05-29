@@ -16,73 +16,110 @@ var TAG = "AppLog"
 var space = "->"
 var isDebug = Base.DEBUG
 private val defLevel = LogLevel.Error
+private val MAXLENGTH = 2000
 
-private val trace get() = trace(4)
+private val trace get() = trace(3)
 
-private fun trace(index: Int): String {
-    val caller = Throwable().stackTrace[index]
+@Suppress("NOTHING_TO_INLINE")
+inline private fun trace(index: Int): String {
+    val caller = Throwable().run {
+        //处理 Java @JvmOverloads 调用行号错误
+        if (stackTrace[index].fileName != null) stackTrace[index] else stackTrace[index + 1]
+    }
 
     // 1. 类名 + 方法名
-    //val callerClazzName = caller.className
-    //val callerClazzName = callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
-    //var template = "${callerClazzName}.${caller.methodName}(${caller.fileName}:${caller.lineNumber})"
+    //var callerClazzName = caller.className
+    //callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
+    //val template = "${callerClazzName}.${caller.methodName}(${caller.fileName}:${caller.lineNumber})"
+    //Log.e("throwable", "throwable", Throwable())
 
     // 2. 方法名
-
-    var template = "${caller.methodName}(${caller.fileName}:${caller.lineNumber})"
+    val template = "${caller.methodName}(${caller.fileName}:${caller.lineNumber})"
     return template
 }
 
+@JvmOverloads
 fun log(msg: String, level: LogLevel = defLevel, tag: String = TAG) = run {
     if (isDebug) {
-        when (level) {
-            LogLevel.Verbose -> {
-                Log.v(tag, "$trace $space $msg")
+
+        val length = msg.length
+        var index = 0
+        var start = 0
+        var end = if (length < MAXLENGTH) length else MAXLENGTH
+
+        do {
+            val p = if (index == 0) "" else "$index"
+
+            when (level) {
+                LogLevel.Verbose -> {
+                    Log.v(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
+                LogLevel.Debug -> {
+                    Log.d(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
+                LogLevel.Info -> {
+                    Log.i(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
+                LogLevel.Warn -> {
+                    Log.w(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
+                LogLevel.Error -> {
+                    Log.e(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
+                LogLevel.WTF -> {
+                    Log.wtf(tag, "$trace $p$space ${msg.subSequence(start, end)}")
+                }
             }
-            LogLevel.Debug -> {
-                Log.d(tag, "$trace $space $msg")
+
+            index += 1
+            start = end
+            end += MAXLENGTH
+            if (end > length){
+                end = length
             }
-            LogLevel.Info -> {
-                Log.i(tag, "$trace $space $msg")
-            }
-            LogLevel.Warn -> {
-                Log.w(tag, "$trace $space $msg")
-            }
-            LogLevel.Error -> {
-                Log.e(tag, "$trace $space $msg")
-            }
-            LogLevel.WTF -> {
-                Log.wtf(tag, "$trace $space $msg")
-            }
-            else -> {
-            }
-        }
+        } while (start < end)
     }
 }
 
+@JvmOverloads
 fun log(msg: String, tr: Throwable?, level: LogLevel = defLevel, tag: String = TAG) = run {
     if (isDebug) {
-        when (level) {
-            LogLevel.Verbose -> {
-                Log.v(tag, "$trace $space $msg", tr)
+
+        val length = msg.length
+        var index = 0
+        var start = 0
+        var end = if (length < MAXLENGTH) length else MAXLENGTH
+
+        do {
+            val p = if (index == 0) "" else "$index"
+
+            when (level) {
+                LogLevel.Verbose -> {
+                    Log.v(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
+                LogLevel.Debug -> {
+                    Log.d(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
+                LogLevel.Info -> {
+                    Log.i(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
+                LogLevel.Warn -> {
+                    Log.w(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
+                LogLevel.Error -> {
+                    Log.e(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
+                LogLevel.WTF -> {
+                    Log.wtf(tag, "$trace $p$space ${msg.subSequence(start, end)}", tr)
+                }
             }
-            LogLevel.Debug -> {
-                Log.d(tag, "$trace $space $msg", tr)
+
+            start = end
+            end += MAXLENGTH
+            index += 1
+            if (end > length){
+                end = length
             }
-            LogLevel.Info -> {
-                Log.i(tag, "$trace $space $msg", tr)
-            }
-            LogLevel.Warn -> {
-                Log.w(tag, "$trace $space $msg", tr)
-            }
-            LogLevel.Error -> {
-                Log.e(tag, "$trace $space $msg", tr)
-            }
-            LogLevel.WTF -> {
-                Log.wtf(tag, "$trace $space $msg", tr)
-            }
-            else -> {
-            }
-        }
+        } while (start < end)
     }
 }

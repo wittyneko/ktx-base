@@ -1,11 +1,13 @@
-def userHome = System.properties['user.home']
+//apply from: "https://raw.githubusercontent.com/java-module/repo/master/install.groovy"
+apply from: "repo/install.groovy"
+apply from: 'plugin/RepoModulePlugin.groovy'.repoDownload()
+
+repoConfig {
+    scriptDownload = false
+    modules = [
+            'github/wittyneko/gradle-tools/master',
+    ]
+}
+repoConfig.execute(settings)
 
 include ':base'
-include ':gradle-tools'
-project(':gradle-tools').projectDir = file("$userHome/code/neko/gradle-tools")
-
-rootProject.children.each { p ->
-
-    println "project: $rootProject.name$p.path"
-    p.name = "$rootProject.name$p.path".replace(':', '-')
-}

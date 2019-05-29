@@ -1,7 +1,10 @@
+@file:Suppress("SimpleDateFormat")
+
 package com.wittyneko.base.utils
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Calendar
 import java.util.Calendar.*
 
 /**
@@ -9,12 +12,30 @@ import java.util.Calendar.*
  * Created by wittyneko on 2017/11/21.
  */
 
-val `yyyy_MM_dd__HH$mm$ss` = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-val `yyyy_MM_dd__HH$mm` = SimpleDateFormat("yyyy-MM-dd HH:mm")
-val `yyyy_MM_dd` = SimpleDateFormat("yyyy-MM-dd")
+val `yyyy_MM_dd__HH$mm$ss` get() = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+val `yyyy_MM_dd__HH$mm` get() = SimpleDateFormat("yyyy-MM-dd HH:mm")
+val yyyy_MM_dd get() = SimpleDateFormat("yyyy-MM-dd")
 
-val `MM_dd__HH$mm` = SimpleDateFormat("MM-ddd HH:mm")
-val `MM_dd` = SimpleDateFormat("MM-dd")
+val `MM_dd__HH$mm` get() = SimpleDateFormat("MM-dd HH:mm")
+val MM_dd get() = SimpleDateFormat("MM-dd")
+
+// 每月最大天数
+val Date.maxDayOfMonth
+    get() = getInstance().let {
+        it.time = this
+        it.getActualMaximum(DAY_OF_MONTH)
+    }
+
+val Date.dayOfMonth get() = getInstance().let {
+    it.time = this
+    it[DAY_OF_MONTH]
+}
+
+// 月份0开始
+val Date.monthOfYear get() = getInstance().let {
+    it.time = this
+    it[MONTH]
+}
 
 // 年份差
 fun Date.betweenYears(other: Date) = run {

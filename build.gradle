@@ -1,14 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    def remoteRepository = 'github'
-    def propertiesUrl = "https://${remoteRepository}.com/wittyneko/gradle-tools/raw/${remoteRepository}/properties.groovy"
-    def fileName = propertiesUrl.substring(propertiesUrl.lastIndexOf('/') + 1)
-    def file = file(fileName)
-    if (!file.exists()) file.withOutputStream { it << new URL(propertiesUrl).content }
-    apply from: fileName
+    //apply from: "https://raw.githubusercontent.com/java-moudle/repo/master/install.groovy"
+    def properties_name = "properties.groovy"
+    def properties_file = file(properties_name)
+    def properties_url = 'github/wittyneko/gradle-tools'.gitRepoRaw(properties_name)
 
+    properties_file.with { if (!exists()) new URL(properties_url).download(it) }
+    apply from: properties_file
     apply from: "$configPath/config.groovy"
     apply from: "$configPath/dependencies.groovy"
+
     ext.kotlin_version = androidcfg.kotlin_version
 
     repositories {
